@@ -1,0 +1,14 @@
+1. Cache (done)
+2. Alpha Beta Pruning
+3. Symmetry
+	- symmetric hash key (symmetric grids give same hash or search all symmetric grids' hash keys)
+	- don't explore symmetric moves
+4. Clean up minimax function
+5. Add player class
+6. Function where you can give 2 players/agents and it will run n games
+
+
+
+
+v1 (plain minimax): 7.76536226272583s and 549 945 states
+v2 (caching):       0.26595592498779s and 16 167 states
