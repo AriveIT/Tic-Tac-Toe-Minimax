@@ -1,8 +1,6 @@
-Simple Tic Tac Toe AI
+##Simple Tic Tac Toe AI
 
 Optimizing minimax algorithm
-
-
 
 | Version | Added Feature | Time (s)* | States Evaluated | Cache Size |
 | ------- | ------------- | --------- | ---------------- | ---------- |
@@ -11,3 +9,6 @@ Optimizing minimax algorithm
 | v3      | alpha beta pruning | 0.08060610003303736 | 3063 | 2064 |
 
 *time passed on first execution of minimax algorith measured using Time.perf_counter().
+
+##Known bugs
+ - v3 ties more often to RandomAgent than v1 and v2
