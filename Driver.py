@@ -1,6 +1,6 @@
 from TicTacToe import TicTacToe
 from RandomAgent import RandomAgent
-from V1 import TicTacToeMiniMax
+from V3 import TicTacToeMiniMax
 
 import math
 import time
@@ -19,7 +19,7 @@ def test_minimax():
     board = TicTacToe()
     minimax_agent = TicTacToeMiniMax(board.X, board, False)
 
-    results = minimax_agent.minimax(board, 10, True)
+    results = minimax_agent.minimax(board, 10, float("-inf"), float("inf"), True)
     
     print(minimax_agent.num_states_evaluated)
     print(results) 
@@ -52,9 +52,14 @@ def time_minimax():
     board = TicTacToe()
     minimax_agent = TicTacToeMiniMax(board.X, board, False)
     
-    start_time = time.time()
-    minimax_agent.minimax(board, 10, True)
-    end_time = time.time()
+    start_time = time.perf_counter()
+    minimax_agent.minimax(board, 10, float("-inf"), float("inf"), True)
+    end_time = time.perf_counter()
+    print(end_time - start_time)
+    
+    start_time = time.perf_counter()
+    minimax_agent.minimax(board, 10, float("-inf"), float("inf"), True)
+    end_time = time.perf_counter()
     print(end_time - start_time)
 
 # -----------------------
