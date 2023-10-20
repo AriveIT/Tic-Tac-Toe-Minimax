@@ -11,4 +11,4 @@ Optimizing minimax algorithm
 *time passed on first execution of minimax algorith measured using Time.perf_counter().
 
 ##Known bugs
- - v3 ties more often to RandomAgent than v1 and v2
+ - v3 ties 10x often to RandomAgent than v1 and v2
