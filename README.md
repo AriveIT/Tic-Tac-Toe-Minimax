@@ -2,7 +2,7 @@
 
 Optimizing minimax algorithm
 
-| Version | Added Feature | Time (s)* | States Evaluated | Cache Size |
+| Version | Feature | Time (s)* | States Evaluated | Cache Size |
 | ------- | ------------- | --------- | ---------------- | ---------- |
 | v1      | minimax       | 8.127084970474243 | 549 945 | N/A |
 | v2      | transposition table | 0.257026910781860 | 16 167  | 4520 |
