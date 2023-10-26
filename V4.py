@@ -1,7 +1,7 @@
 import copy
 import time
 
-# with memoization
+# with memoization + alpha beta pruning
 class TicTacToeMiniMax:
 
     def __init__(self, player, board, verbose):
@@ -16,22 +16,22 @@ class TicTacToeMiniMax:
 
     def take_turn(self, turn_verbose=True):
         maximizingPlayer = True if self.board.get_current_player() == self.board.O else False
-        best_move, eval = self.minimax(self.board, 10, maximizingPlayer)
+        best_move, eval = self.minimax(self.board, 10, float("-inf"), float("inf"), maximizingPlayer)
         return self.board.take_turn(best_move, turn_verbose)
 
 
-    def minimax(self, board, depth, maximizingPlayer):
+    def minimax(self, board, depth, alpha, beta, maximizingPlayer):
+        pruned = False
         
-        dict_val = self.dict.get(board.hash())
+        #dict_val = self.dict.get(board.hash())
+        dict_val = self.get_dict_value(board, alpha, beta)
         if not dict_val == None:
-            return self.dict[board.hash()]
+            return dict_val
         
         possible_moves = board.get_possible_moves()
 
         if depth == 0:
             return possible_moves[0], 0
-        
-        
 
         if maximizingPlayer:
 
@@ -44,7 +44,7 @@ class TicTacToeMiniMax:
                 board_copy = copy.deepcopy(board)
                 end_time = time.perf_counter()
                 self.time_spent_copying += end_time - start_time
-                
+
                 state = board_copy.take_turn(move, self.verbose)
 
                 # determine evaluation
@@ -52,20 +52,24 @@ class TicTacToeMiniMax:
                     eval = self.get_eval(state)
                 else:
                     # continue down tree
-                    #dict_val = self.dict.get(self.board.hash())
-                    _, eval = self.minimax(board_copy, depth - 1, False)
-                    #if dict_val == None:   
-                    #    _, eval = self.minimax(board_copy, depth - 1, False)
-                    #else:
-                    #    eval = dict_val
+                    _, eval = self.minimax(board_copy, depth - 1, alpha, beta, False)
 
                 if eval > maxEval:
                     maxEval = eval
                     bestMove = move
 
+                # alpha beta pruning
+                alpha = max(alpha, eval)
+                if beta <= alpha:
+                    pruned = True
+                    break
+
                 self.num_states_evaluated += 1
             
-            self.add_to_dict(board, bestMove, maxEval)
+            if pruned:
+                self.add_to_dict(board, bestMove, None, alpha, float("inf"))
+            else:
+                self.add_to_dict(board, bestMove, maxEval, None, None)
             return bestMove, maxEval
 
         else:
@@ -78,7 +82,7 @@ class TicTacToeMiniMax:
                 board_copy = copy.deepcopy(board)
                 end_time = time.perf_counter()
                 self.time_spent_copying += end_time - start_time
-                
+
                 state = board_copy.take_turn(move, self.verbose)
                 
                 # determine evaluation
@@ -86,15 +90,24 @@ class TicTacToeMiniMax:
                     eval = self.get_eval(state)
                 else:
                     # continue down tree
-                    _, eval = self.minimax(board_copy, depth - 1, True)
+                    _, eval = self.minimax(board_copy, depth - 1, alpha, beta, True)
 
                 if eval < minEval:
                     minEval = eval
                     bestMove = move
                 
+                # alpha beta pruning
+                beta = min(beta, eval)
+                if beta <= alpha:
+                    pruned = True
+                    break
+
                 self.num_states_evaluated += 1
             
-            self.add_to_dict(board, bestMove, minEval)
+            if pruned:
+                self.add_to_dict(board, bestMove, None, float("-inf"), beta)
+            else:
+                self.add_to_dict(board, bestMove, minEval, None, None)
             return bestMove, minEval
         
     def get_eval(self, eval):
@@ -104,11 +117,26 @@ class TicTacToeMiniMax:
 
         return eval
     
-    def add_to_dict(self, board, bestMove, eval):
+    def add_to_dict(self, board, bestMove, exact_val, lower_bound, upper_bound):
         id = board.hash()
-        #print(id)
-        #print(board)
-        self.dict[id] = (bestMove, eval)
+        self.dict[id] = (bestMove, exact_val, lower_bound, upper_bound)
+    
+    def get_dict_value(self, board, alpha, beta):
+        hash = board.hash()
+        dict_value = self.dict.get(hash)
+
+        # if board not stored yet, return
+        if dict_value is None: return None
+
+        bestMove, exact_val, lower, upper = dict_value
+        
+        # if we have exact value
+        if exact_val is not None: return bestMove, exact_val
+
+        # if we have range
+        if upper <= alpha: return bestMove, upper
+        if lower >= beta: return bestMove, lower
+
 
 
 

@@ -1,18 +1,15 @@
 from TicTacToe import TicTacToe
 from RandomAgent import RandomAgent
-from V4 import TicTacToeMiniMax
+from V3 import TicTacToeMiniMax
 
 import math
 import time
 
 def main():
-    test_minimax()
-    time_minimax()
-    minimax_vs_random(False, 1000)
-    #player_vs_minimax()
-
-
-
+    #test_minimax()
+    #time_minimax()
+    #minimax_vs_random()
+    player_vs_minimax()
 
 # ---------------------
 # Test minmax
@@ -20,19 +17,15 @@ def main():
 # for empty board full depth:
 # v1: 549 945 states
 # v2: 16 167 states
-# v3: 10 116 states
-# v4: 3 120 states
 def test_minimax():
     print("\nTesting...")
     board = TicTacToe()
-    #prep_board_state(board)
     minimax_agent = TicTacToeMiniMax(board.X, board, False)
 
-    #results = minimax_agent.minimax(board, 10, float("-inf"), float("inf"), True)
-    results = minimax_agent.take_turn(False)
+    results = minimax_agent.minimax(board, 10, float("-inf"), float("inf"), True)
     
     print(minimax_agent.num_states_evaluated)
-    #print(results) 
+    print(results) 
     print("dict length: " + str(len(minimax_agent.dict)))
 
 # this is wrong as it doesn't account for recursion stopping due to a win
@@ -45,14 +38,6 @@ def expected_num_states():
 
     return sum
 
-def prep_board_state(board):
-    t(board, 0)
-    t(board, 8)
-    t(board, 2)
-    t(board, 1)
-    t(board, 4)
-    t(board, 5)
-    
 def get_almost_full_board(board):
     t(board, 0)
     t(board, 2)
@@ -66,21 +51,26 @@ def get_almost_full_board(board):
 # ---------------
 # v1: 8.127084970474243s
 # v2: 0.26595592498779s
-# v3: 0.29037840000819415s
-# v4: 0.08041890012100339s
 def time_minimax():
     print("\nTiming...")
     board = TicTacToe()
     minimax_agent = TicTacToeMiniMax(board.X, board, False)
     
     start_time = time.perf_counter()
-    minimax_agent.take_turn(False)
+    minimax_agent.minimax(board, 10, float("-inf"), float("inf"), True)
     end_time = time.perf_counter()
     print(f"Total time: {end_time - start_time}")
 
     copy_time = minimax_agent.time_spent_copying
     print(f"Time copying: {copy_time}")
     print(f"proportion: {copy_time / (end_time - start_time)}")
+
+    """
+    start_time = time.perf_counter()
+    minimax_agent.minimax(board, 10, float("-inf"), float("inf"), True)
+    end_time = time.perf_counter()
+    print(end_time - start_time)
+    """
 
 # -----------------------
 # Compare models
@@ -109,20 +99,20 @@ def player_vs_minimax():
         if not board.take_turn(player_input, True) == None: break
 
 
-def minimax_vs_random(verbose, num_games = 10):
+def minimax_vs_random():
     #print("\nvs Random...")
     board = TicTacToe()
     minimax_agent = TicTacToeMiniMax(board.X, board, False)
     random_agent = RandomAgent(board.O, board)
+    num_games = 1000
     
     
     for i in range(num_games):
         while True:
-            if not minimax_agent.take_turn(verbose) == None: break
-            if not random_agent.take_turn(verbose) == None: break
+            if not minimax_agent.take_turn(True) == None: break
+            if not random_agent.take_turn(True) == None: break
 
-        if board.get_record()["X"] != 0: break
-        minimax_agent.dict = {}
+        if (board.get_record()["X"] != 0 or board.get_record()["Tie"] != 0): break
 
     print(board.get_record())
 
@@ -131,6 +121,7 @@ def minimax_vs_random(verbose, num_games = 10):
 # ------------------
 # Test TicTacToe
 # ------------------
+
 def t(board, move):
     board.take_turn(move, False)
 

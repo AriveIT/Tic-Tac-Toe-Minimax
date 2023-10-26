@@ -1,4 +1,5 @@
 import copy
+import time
 
 # with memoization + alpha beta pruning
 class TicTacToeMiniMax:
@@ -6,9 +7,12 @@ class TicTacToeMiniMax:
     def __init__(self, player, board, verbose):
         self.player = player # X or O
         self.board = board # TicTacToe board
+        self.dict = {}
+
+        # Debugging / Statistics
         self.num_states_evaluated = 0
         self.verbose = verbose
-        self.dict = {}
+        self.time_spent_copying = 0
 
     def take_turn(self, turn_verbose=True):
         maximizingPlayer = True if self.board.get_current_player() == self.board.O else False
@@ -18,9 +22,9 @@ class TicTacToeMiniMax:
 
     def minimax(self, board, depth, alpha, beta, maximizingPlayer):
         
-        dict_val = self.dict.get(board.hash())
-        if not dict_val == None:
-            return self.dict[board.hash()]
+        #dict_val = self.dict.get(board.hash())
+        #if not dict_val == None:
+        #    return self.dict[board.hash()]
         
         possible_moves = board.get_possible_moves()
 
@@ -35,7 +39,12 @@ class TicTacToeMiniMax:
             bestMove = possible_moves[0]
 
             for move in possible_moves:
+
+                start_time = time.perf_counter()
                 board_copy = copy.deepcopy(board)
+                end_time = time.perf_counter()
+                self.time_spent_copying += end_time - start_time
+
                 state = board_copy.take_turn(move, self.verbose)
 
                 # determine evaluation
@@ -64,7 +73,12 @@ class TicTacToeMiniMax:
             bestMove = possible_moves[0]
             
             for move in possible_moves:
+
+                start_time = time.perf_counter()
                 board_copy = copy.deepcopy(board)
+                end_time = time.perf_counter()
+                self.time_spent_copying += end_time - start_time
+
                 state = board_copy.take_turn(move, self.verbose)
                 
                 # determine evaluation
