@@ -8,11 +8,8 @@ import time
 def main():
     test_minimax()
     time_minimax()
-    minimax_vs_random(False, 1000)
+    #minimax_vs_random(False, 1000)
     #player_vs_minimax()
-
-
-
 
 # ---------------------
 # Test minmax
@@ -28,8 +25,8 @@ def test_minimax():
     #prep_board_state(board)
     minimax_agent = TicTacToeMiniMax(board.X, board, False)
 
-    #results = minimax_agent.minimax(board, 10, float("-inf"), float("inf"), True)
-    results = minimax_agent.take_turn(False)
+    results = minimax_agent.minimax(board, 10, float("-inf"), float("inf"), True)
+    #results = minimax_agent.take_turn(False)
     
     print(minimax_agent.num_states_evaluated)
     #print(results) 
@@ -131,6 +128,8 @@ def minimax_vs_random(verbose, num_games = 10):
 # ------------------
 # Test TicTacToe
 # ------------------
+
+
 def t(board, move):
     board.take_turn(move, False)
 

@@ -41,7 +41,7 @@ class TicTacToeMiniMax:
             for move in possible_moves:
 
                 start_time = time.perf_counter()
-                board_copy = copy.deepcopy(board)
+                board_copy = board.copy()
                 end_time = time.perf_counter()
                 self.time_spent_copying += end_time - start_time
 
@@ -80,7 +80,7 @@ class TicTacToeMiniMax:
             for move in possible_moves:
 
                 start_time = time.perf_counter()
-                board_copy = copy.deepcopy(board)
+                board_copy = board.copy()
                 end_time = time.perf_counter()
                 self.time_spent_copying += end_time - start_time
 
