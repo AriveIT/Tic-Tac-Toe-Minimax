@@ -39,20 +39,27 @@ class TicTacToeMiniMax:
 
             for move in possible_moves:
 
-                board_copy = board.copy()
-                state = board_copy.take_turn(move, self.verbose)
+                state = board.take_turn(move, self.verbose, track=False)
+                #print("~~~~~ take turn ~~~~~")
+                #print(board)
+                #print("~~~~~~~~~~~~~~~~~~~~~~")
 
                 # determine evaluation
                 if not state == None:
                     eval = self.get_eval(state)
                 else:
                     # continue down tree
-                    _, eval = self.minimax(board_copy, depth - 1, alpha, beta, False)
+                    _, eval = self.minimax(board, depth - 1, alpha, beta, False)
 
                 if eval > maxEval:
                     maxEval = eval
                     bestMove = move
-
+                
+                #print("-" * 15)
+                #print(board)
+                board.undo_turn(move)
+                #print(board)
+                #print("-" * 15)
                 self.num_states_evaluated += 1
 
                 # alpha beta pruning
@@ -74,20 +81,27 @@ class TicTacToeMiniMax:
             
             for move in possible_moves:
 
-                board_copy = board.copy()
-                state = board_copy.take_turn(move, self.verbose)
-                
+                state = board.take_turn(move, self.verbose, track=False)
+                #print("~~~~~ take turn ~~~~~")
+                #print(board)
+                #print("~~~~~~~~~~~~~~~~~~~~~~")
+
                 # determine evaluation
                 if not state == None:
                     eval = self.get_eval(state)
                 else:
                     # continue down tree
-                    _, eval = self.minimax(board_copy, depth - 1, alpha, beta, True)
+                    _, eval = self.minimax(board, depth - 1, alpha, beta, True)
 
                 if eval < minEval:
                     minEval = eval
                     bestMove = move
                 
+                #print("-" * 15)
+                #print(board)
+                board.undo_turn(move)
+                #print(board)
+                #print("-" * 15)
                 self.num_states_evaluated += 1
                 
                 # alpha beta pruning

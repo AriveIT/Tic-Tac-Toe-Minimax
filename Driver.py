@@ -1,6 +1,6 @@
 from TicTacToe import TicTacToe
 from RandomAgent import RandomAgent
-from V5 import TicTacToeMiniMax
+from V6 import TicTacToeMiniMax
 
 import math
 import time
@@ -8,7 +8,7 @@ import time
 def main():
     test_minimax()
     time_minimax()
-    minimax_vs_random(False, 1000)
+    #minimax_vs_random(False, num_games=1000)
     #player_vs_minimax()
     #player_vs_player()
 
@@ -29,9 +29,9 @@ def test_minimax():
     results = minimax_agent.minimax(board, 10, float("-inf"), float("inf"), True)
     #results = minimax_agent.take_turn(False)
     
-    print(minimax_agent.num_states_evaluated)
+    print(f"states evaluated: {minimax_agent.num_states_evaluated}")
     #print(results) 
-    print("dict length: " + str(len(minimax_agent.dict)))
+    print(f"dict length: {len(minimax_agent.dict)}")
 
 # this is wrong as it doesn't account for recursion stopping due to a win
 # returns 623 530
@@ -76,10 +76,6 @@ def time_minimax():
     end_time = time.perf_counter()
     print(f"Total time: {end_time - start_time}")
 
-    copy_time = minimax_agent.time_spent_copying
-    print(f"Time copying: {copy_time}")
-    print(f"proportion: {copy_time / (end_time - start_time)}")
-
 # -----------------------
 # Compare models
 # -----------------------
@@ -116,16 +112,15 @@ def player_vs_player():
         if not board.take_turn(player_input, True) == None: break
 
 def minimax_vs_random(verbose, num_games = 10):
-    #print("\nvs Random...")
+    print("\nvs Random...")
     board = TicTacToe()
     minimax_agent = TicTacToeMiniMax(board.X, board, False)
     random_agent = RandomAgent(board.O, board)
-    
-    
+
     for i in range(num_games):
         while True:
-            if not minimax_agent.take_turn(verbose) == None: break
-            if not random_agent.take_turn(verbose) == None: break
+            if minimax_agent.take_turn(verbose) is not None: break
+            if random_agent.take_turn(verbose) is not None: break
 
 
         if board.get_record()["X"] != 0: break

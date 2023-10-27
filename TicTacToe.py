@@ -17,7 +17,7 @@ class TicTacToe:
             self.board = [x for x in starting_board]
         self.current_turn = current_turn # O goes first
 
-    def take_turn(self, space, verbose=True):
+    def take_turn(self, space, verbose=True, track=True):
 
         # take turn if given space is valid
         if self.board[space] == self.EMPTY:
@@ -31,21 +31,24 @@ class TicTacToe:
 
         # check if anyone won
         if self.is_game_over(self.X):
-            if verbose: print("X won!")
-            self.record["X"] += 1
-            self.reset_board()
+            if track:
+                if verbose: print("X won!")
+                self.record["X"] += 1
+                #self.reset_board()
             return self.X
         
         elif self.is_game_over(self.O):
-            if verbose: print("O won!")
-            self.record["O"] += 1
-            self.reset_board()
+            if track:
+                if verbose: print("O won!")
+                self.record["O"] += 1
+                #self.reset_board()
             return self.O
         
         elif not self.get_possible_moves():
-            if verbose: print("Tie")
-            self.record["Tie"] += 1
-            self.reset_board()
+            if track:
+                if verbose: print("Tie")
+                self.record["Tie"] += 1
+                #self.reset_board()
             return self.TIE
 
     def undo_turn(self, move, output=None):
@@ -56,6 +59,7 @@ class TicTacToe:
             self.current_turn = turn
         else:
             print(f"invalid undo for move {move}. Output: {output}")
+            exit()
 
     def is_game_over(self, mark):
         return  (self.board[0] == mark and self.board[1] == mark and self.board[2] == mark) or \
