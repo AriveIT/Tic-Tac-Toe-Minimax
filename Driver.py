@@ -1,6 +1,6 @@
 from TicTacToe import TicTacToe
 from RandomAgent import RandomAgent
-from V4 import TicTacToeMiniMax
+from V5 import TicTacToeMiniMax
 
 import math
 import time
@@ -8,8 +8,9 @@ import time
 def main():
     test_minimax()
     time_minimax()
-    #minimax_vs_random(False, 1000)
+    minimax_vs_random(False, 1000)
     #player_vs_minimax()
+    #player_vs_player()
 
 # ---------------------
 # Test minmax
@@ -92,7 +93,7 @@ def minimax_vs_minimax():
         while True:
             if not minimax_agent1.take_turn(False) == None: break
             if not minimax_agent2.take_turn(False) == None: break
-
+        #board.reset_board()
     print(board.get_record())
 
 
@@ -105,6 +106,14 @@ def player_vs_minimax():
         player_input = int(input())
         if not board.take_turn(player_input, True) == None: break
 
+def player_vs_player():
+    board = TicTacToe()
+
+    while True:
+        player_input = int(input())
+        if not board.take_turn(player_input, True) == None: break
+        player_input = int(input())
+        if not board.take_turn(player_input, True) == None: break
 
 def minimax_vs_random(verbose, num_games = 10):
     #print("\nvs Random...")
@@ -118,8 +127,10 @@ def minimax_vs_random(verbose, num_games = 10):
             if not minimax_agent.take_turn(verbose) == None: break
             if not random_agent.take_turn(verbose) == None: break
 
+
         if board.get_record()["X"] != 0: break
         minimax_agent.dict = {}
+        board.reset_board()
 
     print(board.get_record())
 

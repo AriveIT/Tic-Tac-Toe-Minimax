@@ -13,6 +13,8 @@ class TicTacToe:
 
         if starting_board is None:
             self.board = [self.EMPTY for i in range(self.WIDTH * self.WIDTH)]
+        else:
+            self.board = [x for x in starting_board]
         self.current_turn = current_turn # O goes first
 
     def take_turn(self, space, verbose=True):
@@ -46,14 +48,14 @@ class TicTacToe:
             self.reset_board()
             return self.TIE
 
-    def undo_turn(self, move, depth=None):
+    def undo_turn(self, move, output=None):
         turn = self.change_turn()
 
         if self.board[move] == turn:
             self.board[move] = self.EMPTY
             self.current_turn = turn
         else:
-            print(f"invalid undo for move {move} on depth {depth}")
+            print(f"invalid undo for move {move}. Output: {output}")
 
     def is_game_over(self, mark):
         return  (self.board[0] == mark and self.board[1] == mark and self.board[2] == mark) or \
