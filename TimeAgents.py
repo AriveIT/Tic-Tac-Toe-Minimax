@@ -1,4 +1,4 @@
-from TicTacToeOld import TicTacToe
+from TicTacToe import TicTacToe
 from RandomAgent import RandomAgent
 from V1 import TicTacToeMiniMax as v1
 from V2 import TicTacToeMiniMax as v2
@@ -14,53 +14,26 @@ import numpy as np
 
 
 def main():
-    print("\nTiming...")
+    print("Timing...")
 
-    board = TicTacToe()
-    minimax_agent = v1(board.X, board, False)
+    boards = [TicTacToe()] * 6
+    agents = [v1(boards[0].X, boards[0], False),
+              v2(boards[1].X, boards[1], False),
+              v3(boards[2].X, boards[2], False),
+              v4(boards[3].X, boards[3], False),
+              v5(boards[4].X, boards[4], False),
+              v6(boards[5].X, boards[5], False),
+    ]
+
+    for i in range(len(agents)):
+        time = time_agent(agents[i])
+        print(f"{type(agents[i])} time: {time}")
+
+def time_agent(agent):
     start_time = time.perf_counter()
-    minimax_agent.take_turn(False)
+    agent.take_turn(False)
     end_time = time.perf_counter()
-    print(f"v1 time: {end_time - start_time}")
-    
-    board = TicTacToe()
-    minimax_agent = v2(board.X, board, False)
-    start_time = time.perf_counter()
-    minimax_agent.take_turn(False)
-    end_time = time.perf_counter()
-    print(f"v2 time: {end_time - start_time}")
-
-
-    board = TicTacToe()
-    minimax_agent = v3(board.X, board, False)
-    start_time = time.perf_counter()
-    minimax_agent.take_turn(False)
-    end_time = time.perf_counter()
-    print(f"v3 time: {end_time - start_time}")
-
-
-    board = TicTacToe()
-    minimax_agent = v4(board.X, board, False)
-    start_time = time.perf_counter()
-    minimax_agent.take_turn(False)
-    end_time = time.perf_counter()
-    print(f"v4 time: {end_time - start_time}")
-
-
-    board = TicTacToe()
-    minimax_agent = v5(board.X, board, False)
-    start_time = time.perf_counter()
-    minimax_agent.take_turn(False)
-    end_time = time.perf_counter()
-    print(f"v5 time: {end_time - start_time}")
-
-
-    board = TicTacToe()
-    minimax_agent = v6(board.X, board, False)
-    start_time = time.perf_counter()
-    minimax_agent.take_turn(False)
-    end_time = time.perf_counter()
-    print(f"v6 time: {end_time - start_time}")
+    return end_time - start_time
 
 
 
