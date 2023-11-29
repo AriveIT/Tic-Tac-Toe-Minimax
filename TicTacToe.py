@@ -1,4 +1,5 @@
 from queue import Empty
+import numpy as np
 
 
 class TicTacToe:
@@ -12,21 +13,23 @@ class TicTacToe:
         self.record = {"X": 0, "O": 0, "Tie": 0}
 
         if starting_board is None:
-            self.board = [self.EMPTY for i in range(self.WIDTH * self.WIDTH)]
+            self.board_state = np.full((3,3), self.EMPTY)
         else:
-            self.board = [x for x in starting_board]
+
+            self.board_state = np.copy(starting_board)
         self.current_turn = current_turn # O goes first
 
     def take_turn(self, space, verbose=True, track=True):
+        space = self.move_to_ind(space)
 
         # take turn if given space is valid
-        if self.board[space] == self.EMPTY:
-            self.board[space] = self.current_turn
+        if self.board_state[space] == self.EMPTY:
+            self.board_state[space] = self.current_turn
             self.current_turn = self.change_turn()
         else:
             if verbose: print("space already occupied")
 
-        # print board
+        # print board_state
         if verbose: print(self)
 
         # check if anyone won
@@ -53,29 +56,30 @@ class TicTacToe:
 
     def undo_turn(self, move, output=None):
         turn = self.change_turn()
+        move = self.move_to_ind(move)
 
-        if self.board[move] == turn:
-            self.board[move] = self.EMPTY
+        if self.board_state[move] == turn:
+            self.board_state[move] = self.EMPTY
             self.current_turn = turn
         else:
             print(f"invalid undo for move {move}. Output: {output}")
             exit()
 
     def is_game_over(self, mark):
-        return  (self.board[0] == mark and self.board[1] == mark and self.board[2] == mark) or \
-                (self.board[3] == mark and self.board[4] == mark and self.board[5] == mark) or \
-                (self.board[6] == mark and self.board[7] == mark and self.board[8] == mark) or \
-                (self.board[0] == mark and self.board[3] == mark and self.board[6] == mark) or \
-                (self.board[1] == mark and self.board[4] == mark and self.board[7] == mark) or \
-                (self.board[2] == mark and self.board[5] == mark and self.board[8] == mark) or \
-                (self.board[0] == mark and self.board[4] == mark and self.board[8] == mark) or \
-                (self.board[2] == mark and self.board[4] == mark and self.board[6] == mark)
+        return  (self.board_state[0,0] == mark and self.board_state[0,1] == mark and self.board_state[0,2] == mark) or \
+                (self.board_state[1,0] == mark and self.board_state[1,1] == mark and self.board_state[1,2] == mark) or \
+                (self.board_state[2,0] == mark and self.board_state[2,1] == mark and self.board_state[2,2] == mark) or \
+                (self.board_state[0,0] == mark and self.board_state[1,0] == mark and self.board_state[2,0] == mark) or \
+                (self.board_state[0,1] == mark and self.board_state[1,1] == mark and self.board_state[2,1] == mark) or \
+                (self.board_state[0,2] == mark and self.board_state[1,2] == mark and self.board_state[2,2] == mark) or \
+                (self.board_state[0,0] == mark and self.board_state[1,1] == mark and self.board_state[2,2] == mark) or \
+                (self.board_state[0,2] == mark and self.board_state[1,1] == mark and self.board_state[2,0] == mark)
 
     def copy(self):
-        return TicTacToe(self.board, self.current_turn)
+        return TicTacToe(self.board_state, self.current_turn)
 
     def reset_board(self):
-        self.board = [self.EMPTY for i in range(self.WIDTH * self.WIDTH)]
+        self.board_state = np.full((3,3), self.EMPTY)
         self.current_turn = self.O # O goes first
 
     def change_turn(self):
@@ -85,28 +89,37 @@ class TicTacToe:
         return self.current_turn
 
     def get_possible_moves(self):
-        return [ind for ind, _ in enumerate(self.board) if self.board[ind] == self.EMPTY]
+        possible_moves = []
+
+        for i in range(self.WIDTH):
+            for j in range(self.WIDTH):
+                if self.board_state[i,j] == self.EMPTY:
+                    possible_moves.append(i * 3 + j)
+
+        return possible_moves
 
     def get_record(self):
         return self.record
     
-    def hash(self):
-        board_string = ""
+    def move_to_ind(self, move):
+        x = move // self.WIDTH
+        y = move - x * self.WIDTH
+        return (x,y)
 
-        for i in self.board:
-            board_string += str(i)
-        
-        return board_string
+    def hash(self):
+        return str(self.board_state)
 
     def __str__(self):
         output = ""
 
-        for i in range(self.WIDTH * self.WIDTH):
-            if self.board[i] == self.X: output += "X"
-            elif(self.board[i] == self.O): output += "O"
-            else: output += " " # str(i)
-
-            if (i + 1) % (self.WIDTH) == 0: output += "\n"
-            else: output += "|"
+        for i in range(self.WIDTH):
+            for j in range(self.WIDTH):
+                if self.board_state[i,j] == self.X: output += "X"
+                elif(self.board_state[i,j] == self.O): output += "O"
+                else: output += " "
+                
+                if not j == self.WIDTH - 1:
+                    output += "|"
+            output += "\n"
         
         return output

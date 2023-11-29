@@ -1,14 +1,16 @@
-from TicTacToe import TicTacToe
+from TicTacToeOld import TicTacToe
 from RandomAgent import RandomAgent
 from V6 import TicTacToeMiniMax
 
 import math
 import time
+import numpy as np
 
 def main():
+    
     test_minimax()
     time_minimax()
-    #minimax_vs_random(False, num_games=1000)
+    #minimax_vs_random(False, num_games=100)
     #player_vs_minimax()
     #player_vs_player()
 
@@ -45,11 +47,7 @@ def expected_num_states():
 
 def prep_board_state(board):
     t(board, 0)
-    t(board, 8)
-    t(board, 2)
     t(board, 1)
-    t(board, 4)
-    t(board, 5)
     
 def get_almost_full_board(board):
     t(board, 0)
@@ -137,7 +135,7 @@ def minimax_vs_random(verbose, num_games = 10):
 
 
 def t(board, move):
-    board.take_turn(move, False)
+    board.take_turn(move, True)
 
 if __name__ == "__main__":
     main()
