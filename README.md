@@ -12,6 +12,11 @@ Optimizing minimax algorithm
 | v6      | undo turn instead of copy            | 0.02116180001758039 | 4 606 | 2000 |
 | v7 **   | account for symmetries in moves      | 0.08243879990186542 | 1624 | 776
 
-*time passed on first execution of minimax algorithm measured using Time.perf_counter().
+* time passed on first execution of minimax algorithm measured using Time.perf_counter().
 
-** v7 uses different implementation of TicTacToe which is slower, need to look into this
+** v7 uses different implementation of TicTacToe which is slower:
+is_game_over is ~2x slower
+get_possible_moves is ~2x slower
+v6 using this implementation has a time of 0.22480590001214296
+
+

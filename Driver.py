@@ -1,6 +1,6 @@
-from TicTacToeOld import TicTacToe
+from TicTacToe import TicTacToe
 from RandomAgent import RandomAgent
-from V6 import TicTacToeMiniMax
+from V7 import TicTacToeMiniMax
 
 import math
 import time
@@ -8,11 +8,12 @@ import numpy as np
 
 def main():
     
-    test_minimax()
+    #test_minimax()
     time_minimax()
     #minimax_vs_random(False, num_games=100)
     #player_vs_minimax()
     #player_vs_player()
+
 
 # ---------------------
 # Test minmax

@@ -1,4 +1,5 @@
-from TicTacToe import TicTacToe
+from TicTacToe import TicTacToe as ttt_new
+from TicTacToeOld import TicTacToe as ttt_old
 from RandomAgent import RandomAgent
 from V1 import TicTacToeMiniMax as v1
 from V2 import TicTacToeMiniMax as v2
@@ -14,9 +15,26 @@ import numpy as np
 
 
 def main():
+    compare_ttt()
+
+
+def compare_ttt():
+    old = ttt_old()
+    new = ttt_new()
+    
+    start_time = time.perf_counter()
+    for _ in range(100):
+        new.get_possible_moves()
+    end_time = time.perf_counter()
+    print(end_time - start_time)
+
+
+
+
+def time_agents():
     print("Timing...")
 
-    boards = [TicTacToe()] * 6
+    boards = [ttt_new()] * 6
     agents = [v1(boards[0].X, boards[0], False),
               v2(boards[1].X, boards[1], False),
               v3(boards[2].X, boards[2], False),
@@ -28,6 +46,7 @@ def main():
     for i in range(len(agents)):
         time = time_agent(agents[i])
         print(f"{type(agents[i])} time: {time}")
+
 
 def time_agent(agent):
     start_time = time.perf_counter()
