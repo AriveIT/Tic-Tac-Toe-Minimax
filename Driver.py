@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, './Agents')
+
 from TicTacToe import TicTacToe
 from RandomAgent import RandomAgent
 from V7 import TicTacToeMiniMax
@@ -5,8 +8,9 @@ from V7 import TicTacToeMiniMax
 import time
 
 def main():
-    #test_minimax()
+    test_minimax()
     time_minimax()
+    #minimax_vs_random(num_games=1000)
 
 
 
@@ -71,7 +75,7 @@ def player_vs_player():
         player_input = int(input())
         if not board.take_turn(player_input, True) == None: break
 
-def minimax_vs_random(verbose, num_games = 10):
+def minimax_vs_random(verbose=False, num_games=10):
     print("\nvs Random...")
     board = TicTacToe()
     minimax_agent = TicTacToeMiniMax(board.X, board, False)
