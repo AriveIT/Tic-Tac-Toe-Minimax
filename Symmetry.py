@@ -10,7 +10,7 @@ class Symmetry:
         asymmetric_moves = [moves[0]]
         symmetric = False
 
-        for move in moves:
+        for move in moves[1:]:
             # playing in the center has no symmetries
             if move == 4:
                 asymmetric_moves.append(move)
@@ -20,14 +20,11 @@ class Symmetry:
                 if Symmetry.is_symmetric(board_state, move, a_move):
                     symmetric = True
                     break
-                else:
-                    continue
 
-            if move not in asymmetric_moves and not symmetric:
+            if not symmetric:
                 asymmetric_moves.append(move)
             
             symmetric = False
-
 
         return asymmetric_moves
 
@@ -39,8 +36,8 @@ class Symmetry:
         """
         note: we do not have to "play" the moves since we know, after the transformations,
         the moves would end up on the same spot
-        therefore that spot wouldn't change if the 2 board states are equal or not
-        note: move < a_move will never happen, since move must be visited first in order to be added to a_move
+        therefore that spot wouldn't affect if the 2 board states are equal or not
+        note: move > a_move, since move must be visited first in order to be added to a_move
         and move is in increasing order
         """
         if (move == 2 and a_move == 0) or (move == 8 and a_move == 6):
@@ -82,8 +79,7 @@ class Symmetry:
 
         return False
 
-    # 2 moves can only be symmetric if both on corner or
-    # both on side
+    # 2 moves can only be symmetric if both on corner or both on side
     def possibly_symmetric(move1, move2):
         return move1 % 2 == move2 % 2
 
@@ -110,7 +106,7 @@ class Symmetry:
         temp[3], temp[7] = temp[7], temp[3]
         return temp
     
-    #negative diagonal: y=-x
+    # negative diagonal: y=-x
     def negative_diagonal_reflection(board_state):
         temp = np.copy(board_state)
         temp[1], temp[3] = temp[3], temp[1]

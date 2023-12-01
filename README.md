@@ -1,4 +1,4 @@
-## Simple Tic Tac Toe AI
+## Tic Tac Toe Minimax
 
 Optimizing minimax algorithm
 
