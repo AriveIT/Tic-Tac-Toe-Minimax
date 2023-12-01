@@ -2,69 +2,30 @@ from TicTacToe import TicTacToe
 from RandomAgent import RandomAgent
 from V7 import TicTacToeMiniMax
 
-import math
 import time
-import numpy as np
 
 def main():
-    
     #test_minimax()
     time_minimax()
-    #minimax_vs_random(False, num_games=100)
-    #player_vs_minimax()
-    #player_vs_player()
+
 
 
 # ---------------------
 # Test minmax
 # ---------------------
-# for empty board full depth:
-# v1: 549 945 states
-# v2: 16 167 states
-# v3: 10 116 states
-# v4: 3 120 states
 def test_minimax():
     print("\nTesting...")
     board = TicTacToe()
-    #prep_board_state(board)
     minimax_agent = TicTacToeMiniMax(board.X, board, False)
 
     results = minimax_agent.minimax(board, 10, float("-inf"), float("inf"), True)
-    #results = minimax_agent.take_turn(False)
     
     print(f"states evaluated: {minimax_agent.num_states_evaluated}")
-    #print(results) 
     print(f"dict length: {len(minimax_agent.dict)}")
 
-# this is wrong as it doesn't account for recursion stopping due to a win
-# returns 623 530
-def expected_num_states():
-    sum = 0
-
-    for i in range(1, 10):
-        sum += math.factorial(9) / math.factorial(i)
-
-    return sum
-
-def prep_board_state(board):
-    t(board, 0)
-    t(board, 1)
-    
-def get_almost_full_board(board):
-    t(board, 0)
-    t(board, 2)
-    t(board, 1)
-    t(board, 3)
-    t(board, 4)
-    t(board, 7)
-    return board
 # ---------------
 # timing minimax
 # ---------------
-# v1: 8.127084970474243s
-# v2: 0.26595592498779s
-# v3: 0.29037840000819415s
-# v4: 0.08041890012100339s
 def time_minimax():
     print("\nTiming...")
     board = TicTacToe()
@@ -127,16 +88,6 @@ def minimax_vs_random(verbose, num_games = 10):
         board.reset_board()
 
     print(board.get_record())
-
-
-
-# ------------------
-# Test TicTacToe
-# ------------------
-
-
-def t(board, move):
-    board.take_turn(move, True)
 
 if __name__ == "__main__":
     main()

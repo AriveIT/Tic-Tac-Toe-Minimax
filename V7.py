@@ -24,7 +24,6 @@ class TicTacToeMiniMax:
     def minimax(self, board, depth, alpha, beta, maximizingPlayer):
         pruned = False
         
-        #dict_val = self.dict.get(board.hash())
         dict_val = self.get_dict_value(board, alpha, beta)
         if not dict_val == None:
             return dict_val
@@ -44,9 +43,6 @@ class TicTacToeMiniMax:
             for move in possible_moves:
 
                 state = board.take_turn(move, self.verbose, track=False)
-                #print("~~~~~ take turn ~~~~~")
-                #print(board)
-                #print("~~~~~~~~~~~~~~~~~~~~~~")
 
                 # determine evaluation
                 if not state == None:
@@ -59,11 +55,8 @@ class TicTacToeMiniMax:
                     maxEval = eval
                     bestMove = move
                 
-                #print("-" * 15)
-                #print(board)
                 board.undo_turn(move)
-                #print(board)
-                #print("-" * 15)
+                
                 self.num_states_evaluated += 1
 
                 # alpha beta pruning
@@ -86,9 +79,6 @@ class TicTacToeMiniMax:
             for move in possible_moves:
 
                 state = board.take_turn(move, self.verbose, track=False)
-                #print("~~~~~ take turn ~~~~~")
-                #print(board)
-                #print("~~~~~~~~~~~~~~~~~~~~~~")
 
                 # determine evaluation
                 if not state == None:
@@ -101,11 +91,8 @@ class TicTacToeMiniMax:
                     minEval = eval
                     bestMove = move
                 
-                #print("-" * 15)
-                #print(board)
                 board.undo_turn(move)
-                #print(board)
-                #print("-" * 15)
+                
                 self.num_states_evaluated += 1
                 
                 # alpha beta pruning

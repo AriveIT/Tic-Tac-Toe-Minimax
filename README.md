@@ -4,19 +4,16 @@ Optimizing minimax algorithm
 
 | Version | Feature | Time (s)* | States Visited | Cache Size |
 | ------- | ------------- | --------- | ---------------- | ---------- |
-| v1      | minimax                              | 6.545383300050162 | 549 945 | N/A |
-| v2      | transposition table                  | 0.23668800003360957 | 16 167  | 4520 |
-| v3      | alpha beta pruning (no TT)           | 0.24701559997629374 | 10 116 | N/A |
-| v4      | TT + AB pruning                      | 0.07084299996495247 | 4 606 | 2000 |
-| v5      | custom copy instead of copy.deepcopy | 0.02381239994429052 | 4 606 | 2000 |
-| v6      | undo turn instead of copy            | 0.02116180001758039 | 4 606 | 2000 |
-| v7 **   | account for symmetries in moves      | 0.08243879990186542 | 1624 | 776
+| v1      | minimax                              | 6.493116999976337 | 549 945 | N/A |
+| v2      | transposition table                  | 0.2203672998584807 | 16 167  | 4520 |
+| v3      | alpha beta pruning (no TT)           | 0.24250900000333786 | 10 116 | N/A |
+| v4      | TT + AB pruning                      | 0.06920920009724796 | 4 606 | 2000 |
+| v5      | custom copy instead of copy.deepcopy | 0.022521199891343713 | 4 606 | 2000 |
+| v6      | undo turn instead of copy            | 0.0187739001121372 | 4 606 | 2000 |
+| v7      | account for symmetries in moves      | 0.0076558999717235565 | 1560 | 748 |
 
 * time passed on first execution of minimax algorithm measured using Time.perf_counter().
 
-** v7 uses different implementation of TicTacToe which is slower:
-is_game_over is ~2x slower
-get_possible_moves is ~2x slower
-v6 using this implementation has a time of 0.22480590001214296
+All versions were tested on the same implementation of Tic Tac Toe
 
 
