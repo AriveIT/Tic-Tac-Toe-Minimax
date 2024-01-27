@@ -2,8 +2,8 @@
 class TicTacToe:
     EMPTY = 0
     X = 1
-    O = 2
-    TIE = 3
+    O = -1
+    TIE = 0
     WIDTH = 3
 
     def __init__(self, starting_board = None, current_turn = O):

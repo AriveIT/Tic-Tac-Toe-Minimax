@@ -16,4 +16,6 @@ Optimizing minimax algorithm
 
 All versions were tested on the same implementation of Tic Tac Toe
 
+using these measurements, v7 is ~850x faster than v1
+
 

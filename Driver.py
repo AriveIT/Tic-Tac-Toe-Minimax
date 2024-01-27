@@ -3,17 +3,33 @@ sys.path.insert(0, './Agents')
 
 from TicTacToe import TicTacToe
 from RandomAgent import RandomAgent
-from V7 import TicTacToeMiniMax
+from V8 import TicTacToeMiniMax
 
 import time
 
 def main():
     test_minimax()
-    time_minimax()
+    #time_minimax()
     #minimax_vs_random(num_games=1000)
 
+    #test_move_potential()
 
+    # a = ['break', 'apple', 'dreadful', 'catastrophic']
+    # a.sort(key=test_sort)
+    # print(a)
 
+def test_sort(s, test_var=5):
+    return len(s) + test_var
+
+def test_move_potential():
+    board = TicTacToe([1, 0, -1, 1, -1, -1, 0, 0, 0])
+    agent = TicTacToeMiniMax(board.X, board, False)
+    moves = board.get_possible_moves()
+    potentials = [agent.get_move_potential(move) for move in moves]
+
+    print(board)
+    print(moves)
+    print(potentials)
 # ---------------------
 # Test minmax
 # ---------------------
